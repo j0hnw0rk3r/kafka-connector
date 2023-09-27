@@ -40,7 +40,7 @@ let consumer = new KafkaConsumer(process.env.DEFAULT_TOPIC);
                 })
                 .catch(e => console.log(e))
 
-            console.log(response)
+            console.log('Retry endpoint response', response)
         }
     })
 })()
