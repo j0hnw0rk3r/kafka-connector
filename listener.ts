@@ -3,7 +3,6 @@ config()
 
 import KafkaConsumer from './src/kafka/consumer'
 import { sleep } from './src/lib/helper'
-import http from 'http'
 
 // Consumer test
 let consumer = new KafkaConsumer(process.env.DEFAULT_TOPIC);
