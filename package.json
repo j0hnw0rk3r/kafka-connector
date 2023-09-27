@@ -2,14 +2,16 @@
   "name": "15plus-kafka",
   "version": "1.0.0",
   "description": "",
-  "main": "./dist/app.js",
+  "main": "./dist/index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "ts-node-dev --poll --respawn --transpile-only ./src/app.ts"
+    "dev": "ts-node-dev --poll --respawn --transpile-only ./test.ts"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@jm18457/kafkajs-msk-iam-authentication-mechanism": "^3.1.2",
+    "dotenv": "^16.3.1",
     "kafkajs": "^2.2.4"
   },
   "devDependencies": {

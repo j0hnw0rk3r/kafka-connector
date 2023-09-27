@@ -1,3 +1,6 @@
+import { config } from 'dotenv'
+config()
+
 import KafkaProducer from './src/kafka/producer'
 import KafkaConsumer from './src/kafka/consumer'
 
