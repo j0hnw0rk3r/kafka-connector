@@ -6,12 +6,12 @@ class KafkaConsumer {
     consumer: Consumer = kafka.consumer({ groupId: 'group-1' })
     connected: boolean = false
     // 
-    constructor() {
+    constructor(topic?: string) {
         // Connect consumer
         try {
             this.consumer
                 .connect()
-                .then(async () => await this._subscribe())
+                .then(async () => await this._subscribe(topic))
                 .catch(e => {
                     throw e
                 })
@@ -23,13 +23,21 @@ class KafkaConsumer {
 
     // subscribe to topic
     async _subscribe(topic?: string) {
-        console.log('consumer connection successful')
-        this.connected = true
-        // 
-        await this.consumer.subscribe({
-            topic: topic || process.env.DEFAULT_TOPIC,
-            fromBeginning: false
-        })
+        try {
+            if (!topic && !process.env.DEFAULT_TOPIC)
+                throw 'DEFAULT_TOPIC must be set in environment variables'
+
+            console.log('consumer connection successful')
+            this.connected = true
+            // 
+            await this.consumer.subscribe({
+                topic: topic || process.env.DEFAULT_TOPIC,
+                fromBeginning: false
+            })
+        }
+        catch (e) {
+            console.log(e)
+        }
     }
 
     // Subscribe to incoming messages
@@ -43,7 +51,6 @@ class KafkaConsumer {
             await this.consumer
                 .run({
                     eachMessage: async ({ topic, message }) => {
-
                         try {
                             await sleep(5) // Pause 5 seconds for every message
                             callback(message.value.toString())
