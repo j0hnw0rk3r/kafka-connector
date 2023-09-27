@@ -1,4 +1,9 @@
 import { Kafka, KafkaConfig, logLevel } from 'kafkajs'
+import { createMechanism } from '@jm18457/kafkajs-msk-iam-authentication-mechanism'
+
+if (process.env.KAFKA_ENVIRONMENT == 'production' && !process.env.KAFKA_BROKERS) {
+    throw 'KAFKA_BROKERS must be set in the environment variables'
+}
 
 let kafkaCfg: KafkaConfig = {
     clientId: 'my-kafka-client',
@@ -6,16 +11,12 @@ let kafkaCfg: KafkaConfig = {
     logLevel: logLevel.ERROR
 }
 
-if (process.env.KAFKA_ENVIRONMENT === 'production') {
+if (process.env.KAFKA_ENVIRONMENT == 'production') {
     // Authenticate via AWS IAM
     kafkaCfg.ssl = true
-    kafkaCfg.sasl = {
-        mechanism: 'aws',
-        authorizationIdentity: process.env.MSK_CLUSTER_ROLE_ID,
-        accessKeyId: process.env.MSK_CLUSTER_ACCESS_KEY,
-        secretAccessKey: process.env.MSK_CLUSTER_SECRET_KEY
-    }
+    kafkaCfg.sasl = createMechanism({ region: 'us-west-2' })
 }
 
-const kafka = new Kafka(kafkaCfg);
+const kafka = new Kafka(kafkaCfg)
+
 export default kafka
