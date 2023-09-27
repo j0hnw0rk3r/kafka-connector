@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+      "skipLibCheck": true,
+      "target": "es2015",
+      "lib": ["dom", "es2015"],
+      "module": "commonjs",
+      "strict": false,
+      "esModuleInterop": true,
+      "outDir": "./dist",
+      "removeComments": true,
+      "resolveJsonModule": true,
+      "experimentalDecorators": true,
+      "sourceMap": false,
+      "noEmitOnError": false,
+      "emitDecoratorMetadata": true
+  }
+}
