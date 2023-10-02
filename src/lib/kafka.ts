@@ -14,7 +14,7 @@ export const consumer = async () => {
         console.log('new data stream', key)
         if (key) {
             // Send to API for re-insert
-            let endpoint = process.env.API_ENDPOINT
+            let endpoint = process.env.RETRY_ENDPOINT
             let response = await fetch(endpoint, {
                 method: 'POST',
                 headers: {
