@@ -26,7 +26,7 @@ class KafkaProducer {
 
     // Connect to topic
     connect() {
-        console.log('Producer connection successful')
+        console.log('Kafka Producer connection successful')
         this.connected = true
     }
 
