@@ -27,7 +27,7 @@ class KafkaConsumer {
             if (!topic && !process.env.DEFAULT_TOPIC)
                 throw 'DEFAULT_TOPIC must be set in environment variables'
 
-            console.log('consumer connection successful')
+            console.log('Kafka Consumer connection successful')
             this.connected = true
             // 
             await this.consumer.subscribe({

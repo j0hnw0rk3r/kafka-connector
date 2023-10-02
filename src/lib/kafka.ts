@@ -1,19 +1,16 @@
-import { config } from 'dotenv'
-config()
-
-import KafkaConsumer from './src/kafka/consumer'
-import { sleep } from './src/lib/helper'
+import KafkaConsumer from '../kafka/consumer'
+import { sleep } from './helper'
 
 // Consumer test
-let consumer = new KafkaConsumer(process.env.DEFAULT_TOPIC);
+let _consumer = new KafkaConsumer(process.env.DEFAULT_TOPIC);
 
-(async () => {
-    while (!consumer.connected) {
+export const consumer = async () => {
+    while (!_consumer.connected) {
         console.log('Waiting for consumer to connect')
         await sleep(5)
     }
 
-    consumer.subscribe(async (key: any) => {
+    _consumer.subscribe(async (key: any) => {
         console.log('new data stream', key)
         if (key) {
             // Send to API for re-insert
@@ -33,7 +30,7 @@ let consumer = new KafkaConsumer(process.env.DEFAULT_TOPIC);
                         }
                     }
                     catch (e) {
-                        console.log('Error sending to re-insert ednpoint', e)
+                        console.log('Error sending to re-insert endpoint: ', e)
                     }
                     return httpResponse.json()
                 })
@@ -42,4 +39,4 @@ let consumer = new KafkaConsumer(process.env.DEFAULT_TOPIC);
             console.log('Retry endpoint response', response)
         }
     })
-})()
+}
